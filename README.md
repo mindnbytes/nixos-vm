@@ -24,6 +24,25 @@ $ passwd
 - ensure the Makefile points to the correct disk device; I use `/dev/nvme0n1`
 - get your VM's IP address with `ip a`
 - set the environment variable on your Mac with `export NIXADDR=<VM IP address>`
+- you may want to skim through the Makefile to ensure all variables are set correctly
 
 ## Bootstrap VM
-TODO:
+Here I want to diverge from Mitchell's two-step bootstrap process and try to make a full fresh install from flake.
+Conceptually it looks like the flowchart below. Note, that your flake `system.stateVersion` has to correspond the NixOS installer version.
+```
+make vm/fresh
+ │
+ ├── SSH into installer
+ │
+ ├── partition / format / mount
+ │
+ ├── nixos-generate-config --root /mnt
+ │
+ ├── copy my Nix flake into /mnt
+ │
+ ├── nixos-install --flake ...#vm --no-root-passwd
+ │
+ ├── reboot
+ │
+ └── hopefully done!
+ ```
