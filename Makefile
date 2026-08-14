@@ -2,17 +2,17 @@
 NIXADDR ?= unset
 NIXPORT ?= 22
 NIXUSER ?= alex
-NIXNAME ?= vm-aarch64
 
 # Get the path to this Makefile and directory
 MAKEFILE_DIR := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
-# SSH options that are used. These aren't meant to be overridden but are
-# reused a lot so we just store them up here.
+# SSH options to use
 SSH_OPTIONS=-o PubkeyAuthentication=no -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
 
-# Bootsrap new VM
+# Bootsrap new VM: only does one thing - installs fresh NixOS with declarative
+# configuration provided through flake
 vm/fresh:
+	# prepare partitions and filesystems, mount, generate config
 	ssh $(SSH_OPTIONS) -p$(NIXPORT) root@$(NIXADDR) " \
 		parted /dev/nvme0n1 -- mklabel gpt; \
 		parted /dev/nvme0n1 -- mkpart root ext4 512MB -8GB; \
@@ -29,3 +29,16 @@ vm/fresh:
 		mount -o umask=077 /dev/disk/by-label/boot /mnt/boot; \
 		swapon /dev/nvme0n1p2; \
 		nixos-generate-config --root /mnt; \
+		"
+	# copy flake from the host
+	rsync -av \
+		-e "ssh $(SSH_OPTIONS) -p$(NIXPORT)" \
+		"$(MAKEFILE_DIR)/nixos/" \
+		root@$(NIXADDR):/mnt/nixos-config/ \
+	# copy generated hardware config to our flake and install
+	ssh $(SSH_OPTIONS) -p$(NIXPORT) root@$(NIXADDR) " \
+	    cp /mnt/etc/nixos/hardware-configuration.nix \
+		   /mnt/nixos-config/hardware-configuration.nix; \
+		nixos-install --flake /mnt/nixos-config#vm --no-root-passwd; \
+		reboot || true; \
+	"
