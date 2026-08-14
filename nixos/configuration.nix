@@ -1,6 +1,4 @@
 {
-  config,
-  lib,
   pkgs,
   ...
 }:
@@ -8,43 +6,36 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./storage.nix
-    ./immich.nix
-    ../../modules/nixos/backup/borg.nix
-    ../../modules/nixos/services/caddy.nix
-    ../../modules/nixos/services/beszel.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos-btw"; # Define your hostname.
+  networking = {
+    hostName = "dev";
+    useDHCP = true;
+    firewall.enable = false;
+  };
 
-  networking.networkmanager.enable = true;
-
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "b43-firmware"
-    ];
-  networking.enableB43Firmware = true;
+  # Don't require password for sudo
+  security.sudo.wheelNeedsPassword = false;
 
   time.timeZone = "Europe/Berlin";
 
-  services.xserver.enable = false;
-
   users.users.alex = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    home = "/home/alex";
+    extraGroups = [ "wheel" ];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAEBc+D/LqeB3835KXSM5J/dSU1nPwiszC5pPcGpykoi macbook-to-nixos-mini"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP4as7RFWaxXjH10hks+DOaur/5G8LJODtnwQzKQceJk nixos-vm"
     ];
   };
 
   programs.fish.enable = true;
   programs.ssh.startAgent = true;
 
+  services.xserver.enable = false;
   services.openssh = {
     enable = true;
     openFirewall = true;
@@ -57,17 +48,23 @@
       AllowUsers = [ "alex" ];
     };
   };
+  # to advertise hostname.local and allow ssh alex@dev.local
+  services.avahi = {
+    enable = true;
+    publish.enable = true;
+    publish.addresses = true;
+  };
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
-    vim
+    helix
     wget
     git
-    smartmontools
   ];
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
   ];
 
   nix.settings.experimental-features = [
