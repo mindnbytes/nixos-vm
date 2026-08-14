@@ -20,5 +20,6 @@
   imports = [
     ./programs/fish.nix
     ./programs/helix.nix
+    ./programs/git.nix
   ];
 }
