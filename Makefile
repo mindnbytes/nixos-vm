@@ -23,7 +23,7 @@ vm/fresh:
 		exit 1; \
 	}
 	# prepare partitions and filesystems, mount, generate config
-	@echo "Connecting to prepare and ERASE $(NIXDISK); enter the live installer root password."
+	@echo "Connecting to prepare and ERASE $(NIXDISK); enter the live installer root password.";
 	ssh $(SSH_OPTIONS) -p$(NIXPORT) root@$(NIXADDR) " \
 		set -eu; \
 		DISK='$(NIXDISK)'; \
@@ -33,11 +33,11 @@ vm/fresh:
 			*[0-9]) PART=\"\$${DISK}p\" ;; \
 			*) PART=\"\$$DISK\" ;; \
 		esac; \
-		parted --script \"\$$DISK\" mklabel gpt; \
-		parted --script \"\$$DISK\" mkpart root ext4 512MB -8GB; \
-		parted --script \"\$$DISK\" mkpart swap linux-swap -8GB 100\%; \
-		parted --script \"\$$DISK\" mkpart ESP fat32 1MB 512MB; \
-		parted --script \"\$$DISK\" set 3 esp on; \
+		parted --script \"\$$DISK\" -- mklabel gpt; \
+		parted --script \"\$$DISK\" -- mkpart root ext4 512MB -8GB; \
+		parted --script \"\$$DISK\" -- mkpart swap linux-swap -8GB 100\%; \
+		parted --script \"\$$DISK\" -- mkpart ESP fat32 1MB 512MB; \
+		parted --script \"\$$DISK\" -- set 3 esp on; \
 		sleep 2; \
 		test -b \"\$${PART}1\"; \
 		test -b \"\$${PART}2\"; \
@@ -53,13 +53,13 @@ vm/fresh:
 		nixos-generate-config --root /mnt; \
 		"
 	# copy flake from the host
-	@echo "Uploading the NixOS configuration; enter the live installer root password again."
+	@echo "Uploading the NixOS configuration; enter the live installer root password again.";
 	rsync -av \
 		-e "ssh $(SSH_OPTIONS) -p$(NIXPORT)" \
 		"$(MAKEFILE_DIR)/nixos/" \
 		root@$(NIXADDR):/mnt/nixos-config/
 	# copy generated hardware config to our flake and install
-	@echo "Starting the installation; enter the live installer root password one final time."
+	@echo "Starting the installation; enter the live installer root password one final time.";
 	ssh $(SSH_OPTIONS) -p$(NIXPORT) root@$(NIXADDR) " \
 		set -eu; \
 		cp /mnt/etc/nixos/hardware-configuration.nix \
