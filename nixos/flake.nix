@@ -40,7 +40,7 @@
                 pkgsUnstable = import inputs.nixpkgs-unstable { inherit system; };
               };
 
-              home-manager.users.alex = import ./home-vm.nix;
+              home-manager.users.alex = import ./home.nix;
             }
           ];
         };
