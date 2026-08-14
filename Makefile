@@ -29,6 +29,19 @@ vm/fresh:
 		DISK='$(NIXDISK)'; \
 		test -b \"\$$DISK\"; \
 		lsblk -dn -o TYPE \"\$$DISK\" | grep -qx disk; \
+		if ! getent hosts api.github.com >/dev/null 2>&1; then \
+			echo \"DNS resolution failed; retrying without EDNS0 for the installer.\"; \
+			cp /etc/resolv.conf /tmp/resolv.conf.before-vm-fresh; \
+			sed '/^[[:space:]]*options[[:space:]].*edns0/d' \
+				/etc/resolv.conf > /tmp/resolv.conf.vm-fresh; \
+			cat /tmp/resolv.conf.vm-fresh > /etc/resolv.conf; \
+		fi; \
+		getent hosts api.github.com >/dev/null; \
+		getent hosts cache.nixos.org >/dev/null; \
+		curl --fail --silent --show-error --location --connect-timeout 15 \
+			https://api.github.com/ >/dev/null; \
+		curl --fail --silent --show-error --location --connect-timeout 15 \
+			https://cache.nixos.org/nix-cache-info >/dev/null; \
 		case \"\$$DISK\" in \
 			*[0-9]) PART=\"\$${DISK}p\" ;; \
 			*) PART=\"\$$DISK\" ;; \
