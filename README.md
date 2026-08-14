@@ -19,23 +19,32 @@ The choice of VM software (VMware Fusion) is just about stability, reliability, 
 
 Still manual steps, but inside the booted VM console:
 
-- change the root password to "root" (we need it to SSH into the VM; by default, neither the `nixos` nor the `root` user has a password)
+- set a temporary root password (we need it to SSH into the VM; by default, neither the `nixos` nor the `root` user has a password)
 
 ```
-$ sudo su
+$ sudo -i
 $ passwd
-# change to root
 ```
 
-- ensure the Makefile points to the correct disk device; I use `/dev/nvme0n1`
+- identify the installation disk with `lsblk`; for my VM, it is `/dev/nvme0n1`
 - get your VM's IP address with `ip a`
-- set the environment variable on your Mac with `export NIXADDR=<VM IP address>`
-- you may want to skim through the Makefile to ensure all variables are set correctly
+- you may want to skim through the Makefile before proceeding
 
 ## Bootstrap VM
 
-Here I want to diverge from Mitchell's two-step bootstrap process and try to make a full fresh install from flake.
-Conceptually it looks like the flowchart below. Note, that your flake `system.stateVersion` has to correspond the NixOS installer version.
+Here I want to diverge from Mitchell's two-step bootstrap process and try to make a full fresh install from a flake.
+Conceptually, it looks like the flowchart below. Set `system.stateVersion` to the NixOS release initially installed and do not change it during routine upgrades; it does not need to match the installer ISO.
+
+Run the bootstrap from your Mac, replacing the address and disk as needed:
+
+```sh
+make vm/fresh \
+  NIXADDR=192.168.64.10 \
+  NIXDISK=/dev/nvme0n1 \
+  CONFIRM_ERASE=YES
+```
+
+The selected disk will be completely erased. The process is:
 
 ```
 make vm/fresh
@@ -57,5 +66,4 @@ make vm/fresh
 
 ## After the Bootstrap
 
-Our user has no password yet and can only ssh into VM now. Do `ssh username@hostname.local` and
-set the password with `sudo passwd username`.
+Our user has no password yet and can initially access the VM only through SSH. Run `ssh username@hostname.local`, then set the password with `sudo passwd username`.
