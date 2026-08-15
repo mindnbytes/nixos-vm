@@ -5,6 +5,7 @@
   home.homeDirectory = "/home/alex";
 
   home.packages = with pkgs; [
+    ghostty
     fastfetch
     ripgrep
     fd
