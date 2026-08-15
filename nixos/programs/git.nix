@@ -3,7 +3,7 @@
 {
   programs.git = {
     enable = true;
-    config = {
+    settings = {
       user = {
         name = "mindnbytes";
         username = "mindnbytes";
