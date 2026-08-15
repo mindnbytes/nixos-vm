@@ -15,6 +15,8 @@
     hostName = "dev";
     useDHCP = true;
     firewall.enable = false;
+    # VMware Fusion NAT DNS proxy returns malformed responses to EDNS queries.
+    resolvconf.dnsExtensionMechanism = false;
   };
 
   # Don't require password for sudo
