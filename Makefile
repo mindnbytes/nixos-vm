@@ -81,3 +81,27 @@ vm/fresh:
 		sync; \
 		systemctl reboot --no-block; \
 	"
+
+# Copy common SSH identity material from the host to the installed VM user.
+# Requires ordinary host SSH access to work first, for example:
+# ssh -p 22 alex@dev.local
+# SSH will use a default ~/.ssh/id_* key, or an IdentityFile configured for
+# the VM host in ~/.ssh/config.
+vm/secret:
+	@test "$(NIXADDR)" != "unset" || { \
+		echo "Specify the VM address, for example NIXADDR=dev.local"; \
+		exit 1; \
+	}
+	@echo "Copying SSH keys and configuration to $(NIXUSER)@$(NIXADDR)";
+	ssh -p$(NIXPORT) $(NIXUSER)@$(NIXADDR) \
+		"install -d -m 700 /home/$(NIXUSER)/.ssh"
+	rsync -avL \
+		--include="/config" \
+		--include="/known_hosts" \
+		--include="/id_*" \
+		--include="/*.pem" \
+		--include="/*.key" \
+		--exclude="*" \
+		-e "ssh -p$(NIXPORT)" \
+		"$(HOME)/.ssh/" \
+		"$(NIXUSER)@$(NIXADDR):.ssh/"
