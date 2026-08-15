@@ -13,7 +13,7 @@
 
   networking = {
     hostName = "dev";
-    useDHCP = true;
+    useDHCP = false; # true in minimal headless setup
     firewall.enable = false;
     # VMware Fusion NAT DNS proxy returns malformed responses to EDNS queries.
     resolvconf.dnsExtensionMechanism = false;
@@ -35,9 +35,26 @@
   };
 
   programs.fish.enable = true;
-  programs.ssh.startAgent = true;
-
+  programs.ssh.startAgent = false; # true in minimal headless setup
   services.xserver.enable = false;
+
+  services.desktopManager.cosmic.enable = true;
+  services.displayManager.cosmic-greeter.enable = true;
+
+  environment.cosmic.excludePackages = with pkgs; [
+    cosmic-edit
+    cosmic-player
+    cosmic-reader
+    cosmic-term
+    cosmic-monitor
+    cosmic-screenshot
+    playerctl
+    orca
+  ];
+
+  # No physical Bluetooth hardware needed in the VM.
+  hardware.bluetooth.enable = false;
+  
   services.openssh = {
     enable = true;
     openFirewall = true;
