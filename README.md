@@ -35,6 +35,8 @@ $ passwd
 Here I want to diverge from Mitchell's two-step bootstrap process and try to make a full fresh install from a flake.
 Conceptually, it looks like the flowchart below. Set `system.stateVersion` to the NixOS release initially installed and do not change it during routine upgrades; it does not need to match the installer ISO.
 
+This Makefile and configuration are intentionally opinionated. If you clone or fork this repository, update the user, hostname, timezone, and `openssh.authorizedKeys.keys` in `nixos/configuration.nix`; also update the user in `nixos/home.nix`.
+
 Run the bootstrap from your Mac, replacing the address and disk as needed:
 
 ```sh
@@ -66,4 +68,4 @@ make vm/fresh
 
 ## After the Bootstrap
 
-Our user has no password yet and can initially access the VM only through SSH. Run `ssh username@hostname.local`, then set the password with `sudo passwd username`.
+Our user has no password yet and can initially access the VM only through SSH using a private key matching `openssh.authorizedKeys.keys`. Run `ssh username@hostname.local`, or use `ssh -i /path/to/private-key username@hostname.local` for a non-standard key location, then set the password with `sudo passwd username`. Password SSH remains disabled by this configuration.
