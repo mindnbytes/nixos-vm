@@ -19,6 +19,12 @@
     resolvconf.dnsExtensionMechanism = false;
   };
 
+  virtualisation.vmware.guest = {
+    enable = true;
+    # we have a graphical Wayland descktop even though XServer is disabled
+    headless = false;
+  };
+
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
 
@@ -54,7 +60,7 @@
 
   # No physical Bluetooth hardware needed in the VM.
   hardware.bluetooth.enable = false;
-  
+
   services.openssh = {
     enable = true;
     openFirewall = true;
