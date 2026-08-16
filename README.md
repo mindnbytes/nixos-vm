@@ -9,6 +9,7 @@ The choice of VM software (VMware Fusion) is just about stability, reliability, 
 ### Manual Steps:
 
 - assumes you have VM software installed
+- **note**: copy/paste between host and guest does not work with Wayland guest desktops
 - download the [official NixOS image](https://nixos.org/download.html#nixos-iso) `aarch64` ISO
 - start creating a VM from this ISO
 - keyboard profile - remove most of the shortcuts
