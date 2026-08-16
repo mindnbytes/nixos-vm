@@ -22,5 +22,6 @@
     ./programs/fish.nix
     ./programs/helix.nix
     ./programs/git.nix
+    ./programs/zed-editor.nix
   ];
 }
