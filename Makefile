@@ -105,3 +105,15 @@ vm/secret:
 		-e "ssh -p$(NIXPORT)" \
 		"$(HOME)/.ssh/" \
 		"$(NIXUSER)@$(NIXADDR):.ssh/"
+
+# Sync VM's latest state nixos-config to this repo
+vm/sync:
+	@test "$(NIXADDR)" != "unset" || { \
+		echo "Specify the VM address, for example NIXADDR=dev.local"; \
+		exit 1; \
+	}
+	@echo "Copying NixOS configuration from $(NIXUSER)@$(NIXADDR)";
+	rsync -av \
+		-e "ssh -p$(NIXPORT)" \
+		"$(NIXUSER)@$(NIXADDR):/nixos-config/" \
+		"$(MAKEFILE_DIR)/nixos/"
