@@ -24,6 +24,14 @@
     # we have a graphical Wayland descktop even though XServer is disabled
     headless = false;
   };
+  # docker in rootless mode on guest machine
+  virtualisation.docker = {
+    enable = false;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+  };
 
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
@@ -58,10 +66,10 @@
     orca
   ];
 
-   programs.firefox.preferences = {
-      # disable libadwaita theming
-      "widget.gtk.libadwaita-colors.enabled" = false;
-    };
+  programs.firefox.preferences = {
+    # disable libadwaita theming
+    "widget.gtk.libadwaita-colors.enabled" = false;
+  };
 
   # No physical Bluetooth hardware needed in the VM.
   hardware.bluetooth.enable = false;
