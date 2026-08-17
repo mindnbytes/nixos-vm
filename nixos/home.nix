@@ -12,6 +12,8 @@
     eza
     bat
     btop
+    gh
+    keepassxc
   ];
 
   home.stateVersion = "26.05";
