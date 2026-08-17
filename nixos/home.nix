@@ -25,5 +25,6 @@
     ./programs/helix.nix
     ./programs/git.nix
     ./programs/zed-editor.nix
+    ./programs/firefox.nix
   ];
 }
