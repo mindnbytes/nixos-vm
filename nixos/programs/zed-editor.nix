@@ -7,6 +7,7 @@
     extraPackages = [
       pkgs.nixd
       pkgs.nixfmt
+      pkgs.dockerfile-language-server
     ];
     extensions = [
       "nix"
