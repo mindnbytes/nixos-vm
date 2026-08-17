@@ -14,11 +14,6 @@ in
 
     languagePacks = [ "en-US" ];
 
-    preferences = {
-      # disable libadwaita theming
-      "widget.gtk.libadwaita-colors.enabled" = false;
-    };
-
     policies = {
       # Updates & Background Services
       AppAutoUpdate = false;
@@ -117,8 +112,8 @@ in
 
     profiles.default.search = {
       force = true;
-      default = "DuckDuckGo";
-      privateDefault = "DuckDuckGo";
+      default = "ddg";
+      privateDefault = "ddg";
 
       engines = {
         "Nix Packages" = {

@@ -58,6 +58,11 @@
     orca
   ];
 
+   programs.firefox.preferences = {
+      # disable libadwaita theming
+      "widget.gtk.libadwaita-colors.enabled" = false;
+    };
+
   # No physical Bluetooth hardware needed in the VM.
   hardware.bluetooth.enable = false;
 
