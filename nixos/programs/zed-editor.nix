@@ -146,8 +146,8 @@ in
               nixpkgs.expr = "import ${localFlake}.inputs.nixpkgs { }";
 
               options = {
-                nixos.expr = "${localFlake}.nixosConfigurations.nixos-btw.options";
-                home-manager.expr = "${localFlake}.nixosConfigurations.nixos-btw.options.home-manager.users.type.getSubOptions []";
+                nixos.expr = "${localFlake}.nixosConfigurations.vm.options";
+                home-manager.expr = "${localFlake}.nixosConfigurations.vm.options.home-manager.users.type.getSubOptions []";
               };
 
               diagnostic.suppress = [ "sema-extra-with" ];
