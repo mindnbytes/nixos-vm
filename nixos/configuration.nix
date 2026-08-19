@@ -6,6 +6,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./cosmic.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -51,25 +52,6 @@
   programs.fish.enable = true;
   programs.ssh.startAgent = false; # true in minimal headless setup
   services.xserver.enable = false;
-
-  services.desktopManager.cosmic.enable = true;
-  services.displayManager.cosmic-greeter.enable = true;
-
-  environment.cosmic.excludePackages = with pkgs; [
-    cosmic-edit
-    cosmic-player
-    cosmic-reader
-    cosmic-term
-    cosmic-monitor
-    cosmic-screenshot
-    playerctl
-    orca
-  ];
-
-  programs.firefox.preferences = {
-    # disable libadwaita theming
-    "widget.gtk.libadwaita-colors.enabled" = false;
-  };
 
   # No physical Bluetooth hardware needed in the VM.
   hardware.bluetooth.enable = false;

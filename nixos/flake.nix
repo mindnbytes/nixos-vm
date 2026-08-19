@@ -22,9 +22,14 @@
       nixosConfigurations.vm =
         let
           system = "aarch64-linux";
+          pkgsUnstable = import inputs.nixpkgs-unstable { inherit system; };
         in
         nixpkgs.lib.nixosSystem {
-          system = system;
+          inherit system;
+
+          specialArgs = {
+            inherit inputs pkgsUnstable;
+          };
 
           modules = [
             ./configuration.nix
@@ -36,8 +41,7 @@
               home-manager.backupFileExtension = "backup";
 
               home-manager.extraSpecialArgs = {
-                inherit inputs;
-                pkgsUnstable = import inputs.nixpkgs-unstable { inherit system; };
+                inherit inputs pkgsUnstable;
               };
 
               home-manager.users.alex = import ./home.nix;
