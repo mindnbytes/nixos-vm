@@ -1,4 +1,4 @@
-{ pkgs, pkgsUnstable, ... }:
+{ pkgs, ... }:
 let
   localFlake = "(builtins.getFlake (builtins.toString ./.))";
 in
@@ -6,7 +6,6 @@ in
   # Many default configuration options are skipped, check Zed config reference
   programs.zed-editor = {
     enable = true;
-    package = pkgsUnstable.zed-editor;
     extraPackages = [
       pkgs.nixd
       pkgs.nixfmt

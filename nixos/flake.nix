@@ -2,11 +2,10 @@
   description = "NixOS on VM";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-26.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -22,13 +21,12 @@
       nixosConfigurations.vm =
         let
           system = "aarch64-linux";
-          pkgsUnstable = import inputs.nixpkgs-unstable { inherit system; };
         in
         nixpkgs.lib.nixosSystem {
           inherit system;
 
           specialArgs = {
-            inherit inputs pkgsUnstable;
+            inherit inputs;
           };
 
           modules = [
@@ -41,7 +39,7 @@
               home-manager.backupFileExtension = "backup";
 
               home-manager.extraSpecialArgs = {
-                inherit inputs pkgsUnstable;
+                inherit inputs;
               };
 
               home-manager.users.alex = import ./home.nix;
