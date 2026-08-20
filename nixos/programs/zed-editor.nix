@@ -33,12 +33,12 @@ in
       icon_theme = "Catppuccin Frappé";
       # UI Font. Use ".SystemUIFont" to use the default system font (SF Pro on macOS),
       # or ".ZedSans" for the bundled default (currently IBM Plex)
-      ui_font_family = ".SystemUIFont";
+      ui_font_family = ".ZedSans";
       ui_font_weight = 400; # Font weight in standard CSS units from 100 to 900.
       ui_font_size = 16;
       # Buffer Font - Used by editor buffers
       # use ".ZedMono" for the bundled default monospace (currently Lilex)
-      buffer_font_family = ".ZedMono";
+      buffer_font_family = "JetBrainsMono Nerd Font Mono";
       buffer_font_size = 15;
       buffer_font_weight = 400;
       # Line height "comfortable" (1.618), "standard" (1.3) or custom: `{ "custom": 2 }`
@@ -118,7 +118,7 @@ in
         blinking = "off";
         cursor_shape = "bar";
 
-        font_family = "FiraCode Nerd Font";
+        font_family = "JetBrainsMono Nerd Font";
         font_size = 13;
         line_height = "comfortable";
 
