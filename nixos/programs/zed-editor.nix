@@ -47,6 +47,7 @@ in
       cursor_blink = false;
       cursor_shape = "bar";
       autosave = "on_focus_change";
+      colorize_brackets = true;
       ######### AI agents, models, edit predictions #########
       agent = {
         default_model = {
