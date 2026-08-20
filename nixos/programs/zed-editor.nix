@@ -17,7 +17,14 @@ in
       "catppuccin"
       "catppuccin-icons"
     ];
-
+    userKeymaps = [
+      {
+        context = "Workspace";
+        bindings = {
+          "ctrl-w t" = "terminal_panel::ToggleFocus";
+        };
+      }
+    ];
     userSettings = {
       helix_mode = true; # helix mode is on top of vim mode
 
@@ -106,6 +113,8 @@ in
 
       ######### Terminal #########
       terminal = {
+        dock = "right";
+        default_width = 320;
         blinking = "off";
         cursor_shape = "bar";
 
