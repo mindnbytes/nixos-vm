@@ -15,7 +15,7 @@
       description = "List all files with details and icons";
       wraps = "eza";
       body = ''
-        eza -lah --icons $argv
+        eza -lah --icons=auto $argv
       '';
     };
   };
