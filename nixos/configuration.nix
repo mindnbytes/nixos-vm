@@ -7,6 +7,7 @@
   imports = [
     ./hardware-configuration.nix
     ./cosmic.nix
+    ./hyprland.nix
   ];
 
   boot.loader.systemd-boot.enable = true;

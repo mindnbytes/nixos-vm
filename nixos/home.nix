@@ -14,7 +14,15 @@
     btop
     gh
     keepassxc
+    fuzzel
   ];
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+
+    # UWSM owns systemd session integration.
+    systemd.enable = false;
+  };
 
   home.stateVersion = "26.05";
 
