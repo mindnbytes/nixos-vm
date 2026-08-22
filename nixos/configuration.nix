@@ -33,6 +33,13 @@
       setSocketVariable = true;
     };
   };
+  # turn off suspend for VM
+  systemd.sleep.settings.Sleep = {
+    AllowSuspend = "no";
+    AllowHibernation = "no";
+    AllowHybridSleep = "no";
+    AllowSuspendThenHibernate = "no";
+  };
 
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
