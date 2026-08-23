@@ -15,6 +15,7 @@
     gh
     keepassxc
     fuzzel
+    foot
   ];
 
   wayland.windowManager.hyprland = {
@@ -22,6 +23,8 @@
 
     # UWSM owns systemd session integration.
     systemd.enable = false;
+    package = null;
+    portalPackage = null;
   };
 
   home.stateVersion = "26.05";

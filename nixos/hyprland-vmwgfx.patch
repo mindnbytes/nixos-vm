@@ -1,0 +1,11 @@
+diff --git a/src/protocols/LinuxDMABUF.cpp b/src/protocols/LinuxDMABUF.cpp
+--- a/src/protocols/LinuxDMABUF.cpp
++++ b/src/protocols/LinuxDMABUF.cpp
+@@ -243,6 +243,8 @@ bool CLinuxDMABUFParamsResource::commence() {
++    return true;
++
+     if (!PROTO::linuxDma->m_mainDeviceFD.isValid())
+         return true;
+
+     for (int i = 0; i < m_attrs->planes; i++) {
+         uint32_t handle = 0;
