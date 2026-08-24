@@ -14,8 +14,11 @@
     btop
     gh
     keepassxc
+    # check out some hyprland stuff
     fuzzel
     foot
+    mako
+    libnotify
   ];
 
   wayland.windowManager.hyprland = {
