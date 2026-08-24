@@ -30,6 +30,24 @@
     portalPackage = null;
   };
 
+  systemd.user.services.mako-hyprland = {
+    Unit = {
+      Description = "Mako notification daemon for Hyprland";
+      After = [ "wayland-session@hyprland.desktop.target" ];
+      PartOf = [ "wayland-session@hyprland.desktop.target" ];
+    };
+
+    Service = {
+      Type = "exec";
+      ExecStart = "${pkgs.mako}/bin/mako";
+      Restart = "on-failure";
+    };
+
+    Install = {
+      WantedBy = [ "wayland-session@hyprland.desktop.target" ];
+    };
+  };
+
   home.stateVersion = "26.05";
 
   programs.home-manager.enable = true;
