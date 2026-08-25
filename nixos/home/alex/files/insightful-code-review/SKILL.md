@@ -1,71 +1,3 @@
-{ pkgs, ... }:
-
-{
-  home.username = "alex";
-  home.homeDirectory = "/home/alex";
-
-  home.packages = with pkgs; [
-    ghostty
-    fastfetch
-    ripgrep
-    fd
-    eza
-    bat
-    btop
-    gh
-    keepassxc
-    # check out some hyprland stuff
-    fuzzel
-    foot
-    mako
-    libnotify
-  ];
-
-  wayland.windowManager.hyprland = {
-    enable = true;
-
-    # UWSM owns systemd session integration.
-    systemd.enable = false;
-    package = null;
-    portalPackage = null;
-  };
-
-  systemd.user.services.mako-hyprland = {
-    Unit = {
-      Description = "Mako notification daemon for Hyprland";
-      After = [ "wayland-session@hyprland.desktop.target" ];
-      PartOf = [ "wayland-session@hyprland.desktop.target" ];
-    };
-
-    Service = {
-      Type = "exec";
-      ExecStart = "${pkgs.mako}/bin/mako";
-      Restart = "on-failure";
-    };
-
-    Install = {
-      WantedBy = [ "wayland-session@hyprland.desktop.target" ];
-    };
-  };
-
-  home.stateVersion = "26.05";
-
-  programs.home-manager.enable = true;
-
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
-  imports = [
-    ./programs/fish.nix
-    ./programs/helix.nix
-    ./programs/git.nix
-    ./programs/zed-editor.nix
-    ./programs/firefox.nix
-  ];
-
-  home.file.".agents/skills/insightful-code-review/SKILL.md".text = ''
     ---
     name: insightful-code-review
     description: Perform an evidence-based code review that identifies important defects, explains underlying engineering principles, and helps the programmer improve.
@@ -156,6 +88,4 @@
 
     If no actionable defects are found, say so explicitly rather than inventing
     findings.
-  '';
-
-}
+    ---

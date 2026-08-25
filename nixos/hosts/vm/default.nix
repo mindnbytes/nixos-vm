@@ -6,26 +6,16 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./cosmic.nix
-    ./hyprland.nix
+    ./vmware.nix
+    ./desktops/cosmic.nix
+    ./desktops/hyprland.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking = {
-    hostName = "dev";
-    useDHCP = false; # true in minimal headless setup
-    firewall.enable = false;
-    # VMware Fusion NAT DNS proxy returns malformed responses to EDNS queries.
-    resolvconf.dnsExtensionMechanism = false;
-  };
+  networking.hostName = "dev";
 
-  virtualisation.vmware.guest = {
-    enable = true;
-    # we have a graphical Wayland descktop even though XServer is disabled
-    headless = false;
-  };
   # docker in rootless mode on guest machine
   virtualisation.docker = {
     enable = false;
@@ -34,14 +24,6 @@
       setSocketVariable = true;
     };
   };
-  # turn off suspend for VM
-  systemd.sleep.settings.Sleep = {
-    AllowSuspend = "no";
-    AllowHibernation = "no";
-    AllowHybridSleep = "no";
-    AllowSuspendThenHibernate = "no";
-  };
-
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
 
@@ -60,9 +42,6 @@
   programs.fish.enable = true;
   programs.ssh.startAgent = false; # true in minimal headless setup
   services.xserver.enable = false;
-
-  # No physical Bluetooth hardware needed in the VM.
-  hardware.bluetooth.enable = false;
 
   services.openssh = {
     enable = true;

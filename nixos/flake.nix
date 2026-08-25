@@ -12,39 +12,34 @@
 
   outputs =
     inputs@{
-      self,
       nixpkgs,
       home-manager,
       ...
     }:
     {
-      nixosConfigurations.vm =
-        let
-          system = "aarch64-linux";
-        in
-        nixpkgs.lib.nixosSystem {
-          inherit system;
+      nixosConfigurations.vm = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
 
-          specialArgs = {
-            inherit inputs;
-          };
-
-          modules = [
-            ./configuration.nix
-
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
-
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-              };
-
-              home-manager.users.alex = import ./home.nix;
-            }
-          ];
+        specialArgs = {
+          inherit inputs;
         };
+
+        modules = [
+          ./hosts/vm
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
+
+            home-manager.users.alex = import ./home/alex;
+          }
+        ];
+      };
     };
 }

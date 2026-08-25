@@ -13,10 +13,4 @@
     playerctl
     orca
   ];
-
-  programs.firefox.preferences = {
-    # disable libadwaita theming
-    "widget.gtk.libadwaita-colors.enabled" = false;
-  };
-
 }
