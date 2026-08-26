@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./desktops/cosmic.nix
     ./desktops/hyprland.nix
     ./programs
   ];
