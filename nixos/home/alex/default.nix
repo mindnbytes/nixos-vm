@@ -29,7 +29,4 @@
     enable = true;
     nix-direnv.enable = true;
   };
-
-  home.file.".agents/skills/insightful-code-review/SKILL.md".source =
-    ./files/insightful-code-review/SKILL.md;
 }
