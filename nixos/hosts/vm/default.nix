@@ -14,6 +14,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  hardware.graphics.enable = true;
+
   networking.hostName = "dev";
 
   # docker in rootless mode on guest machine
