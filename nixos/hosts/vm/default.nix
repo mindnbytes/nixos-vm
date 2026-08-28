@@ -41,6 +41,8 @@
     ];
   };
 
+  programs.niri.enable = true;
+
   programs.fish.enable = true;
   programs.ssh.startAgent = false; # true in minimal headless setup
   services.xserver.enable = false;
