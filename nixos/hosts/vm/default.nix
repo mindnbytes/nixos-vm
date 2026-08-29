@@ -71,6 +71,8 @@
     helix
     wget
     git
+    # exploration
+    noctalia
   ];
 
   fonts.packages = with pkgs; [
