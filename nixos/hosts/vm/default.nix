@@ -41,8 +41,14 @@
     ];
   };
 
+  # explore niri + noctalia => refactor later
   programs.niri.enable = true;
   programs.dconf.enable = true;
+  qt.enable = true;
+
+  environment.sessionVariables = {
+    QT_QPA_PLATFORMTHEME = "qt6ct";
+  };
 
   programs.fish.enable = true;
   programs.ssh.startAgent = false; # true in minimal headless setup
@@ -75,6 +81,7 @@
     # exploration
     noctalia
     adw-gtk3
+    qt6Packages.qt6ct
   ];
 
   fonts.packages = with pkgs; [
