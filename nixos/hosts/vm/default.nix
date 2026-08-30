@@ -42,6 +42,7 @@
   };
 
   programs.niri.enable = true;
+  programs.dconf.enable = true;
 
   programs.fish.enable = true;
   programs.ssh.startAgent = false; # true in minimal headless setup
@@ -73,6 +74,7 @@
     git
     # exploration
     noctalia
+    adw-gtk3
   ];
 
   fonts.packages = with pkgs; [
