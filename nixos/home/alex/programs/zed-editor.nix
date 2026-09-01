@@ -11,11 +11,13 @@ in
       pkgs.nixfmt
       pkgs.dockerfile-language-server
       pkgs.lua-language-server
+      pkgs.luau-lsp
     ];
     extensions = [
       "nix"
       "dockerfile"
       "lua"
+      "zed-luau"
       "catppuccin"
       "catppuccin-icons"
     ];
