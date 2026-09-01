@@ -8,7 +8,6 @@
     ./hardware-configuration.nix
     ./vmware.nix
     ./desktops/cosmic.nix
-    ./desktops/hyprland.nix
   ];
 
   boot.loader.systemd-boot.enable = true;

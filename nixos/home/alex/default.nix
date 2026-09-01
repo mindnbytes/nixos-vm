@@ -3,7 +3,6 @@
 {
   imports = [
     ./desktops/cosmic.nix
-    ./desktops/hyprland.nix
     ./programs
   ];
   home = {
@@ -13,6 +12,7 @@
 
     packages = with pkgs; [
       ghostty
+      fuzzel
       fastfetch
       ripgrep
       fd
