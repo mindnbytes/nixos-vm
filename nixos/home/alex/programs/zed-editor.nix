@@ -40,6 +40,8 @@ in
       ui_font_family = ".ZedSans";
       ui_font_weight = 400; # Font weight in standard CSS units from 100 to 900.
       ui_font_size = 16;
+      agent_ui_font_size = 18;
+      agent_buffer_font_size = 15;
       # Buffer Font - Used by editor buffers
       # use ".ZedMono" for the bundled default monospace (currently Lilex)
       buffer_font_family = "JetBrainsMono Nerd Font Mono";
