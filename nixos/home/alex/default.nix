@@ -3,6 +3,7 @@
 {
   imports = [
     ./desktops/cosmic.nix
+    ./desktops/niri
     ./programs
   ];
   home = {
