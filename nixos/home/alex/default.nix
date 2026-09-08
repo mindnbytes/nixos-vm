@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   imports = [
@@ -21,6 +21,8 @@
       btop
       gh
       keepassxc
+
+      inputs.opencode-v2.packages.${pkgs.stdenv.hostPlatform.system}.opencode
     ];
   };
   programs.home-manager.enable = true;

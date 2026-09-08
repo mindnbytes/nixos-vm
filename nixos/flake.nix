@@ -14,6 +14,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    opencode-v2 = {
+      url = "github:/anomalyco/opencode/beta";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
