@@ -1,0 +1,194 @@
+[backdrop]
+enabled = true
+
+[bar.default]
+background_opacity = 0.4999999888241291
+capsule = true
+capsule_opacity = 0.74999998323619366
+capsule_padding = 4.0
+capsule_thickness = 0.69999998807907104
+center = [ "group:g1" ]
+end = [ "wallpaper", "notifications", "clipboard", "network", "session" ]
+margin_ends = 10
+start = [ "workspaces", "wallhaven", "status" ]
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    enabled = true
+    fill = "surface_variant"
+    id = "g1"
+    members = [ "date", "clock", "control-center" ]
+    opacity = 0.75
+    padding = 4.0
+
+[control_center]
+hidden_tabs = [ "media", "audio", "monitor", "bluetooth" ]
+
+    [control_center.calendar]
+    show_events_card = false
+
+    [[control_center.shortcuts]]
+    type = "caffeine"
+
+    [[control_center.shortcuts]]
+    type = "notification"
+
+    [[control_center.shortcuts]]
+    type = "power_profile"
+
+    [[control_center.shortcuts]]
+    type = "system"
+
+[dock]
+background_opacity = 0.4999999888241291
+show_instance_count = false
+
+[idle]
+behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
+
+    [idle.behavior.lock]
+    action = "lock"
+    enabled = true
+    timeout = 300.0
+
+    [idle.behavior.lock-and-suspend]
+    action = "lock_and_suspend"
+    enabled = false
+    timeout = 900.0
+
+    [idle.behavior.screen-off]
+    action = "screen_off"
+    enabled = false
+    timeout = 660.0
+
+[location]
+auto_locate = true
+
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = [ "lockscreen-login-box@Virtual-1" ]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@Virtual-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 864.00018310546875
+    cy = 924.9759521484375
+    output = "Virtual-1"
+    placement_height = 1085.0
+    placement_width = 1728.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@Virtual-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+[plugin_settings."mindnbytes/nix-status"]
+flake_dir = "/home/alex/Projects/nixos-vm/nixos"
+nixos_configuration = "vm"
+use_themed_logos = true
+
+[plugin_settings."noctalia/wallhaven"]
+browser_open_near_click = true
+
+[plugins]
+enabled = [ "noctalia/wallhaven", "mindnbytes/nix-status" ]
+
+[shell]
+polkit_agent = true
+settings_window_translucent = true
+
+    [shell.panel]
+    clipboard_placement = "attached"
+    open_near_click_clipboard = true
+    open_near_click_control_center = true
+    open_near_click_session = true
+    open_near_click_wallpaper = true
+    transparency_mode = "glass"
+
+    [shell.session]
+    grid = true
+    grid_columns = 2
+
+        [[shell.session.actions]]
+        action = "lock"
+        countdown_seconds = 0.0
+        enabled = true
+        shortcut = "1"
+        variant = "default"
+
+        [[shell.session.actions]]
+        action = "logout"
+        countdown_seconds = 0.0
+        enabled = true
+        shortcut = "2"
+        variant = "default"
+
+        [[shell.session.actions]]
+        action = "lock_and_suspend"
+        countdown_seconds = 0.0
+        enabled = false
+        shortcut = "3"
+        variant = "default"
+
+        [[shell.session.actions]]
+        action = "reboot"
+        countdown_seconds = 0.0
+        enabled = true
+        shortcut = "4"
+        variant = "default"
+
+        [[shell.session.actions]]
+        action = "shutdown"
+        countdown_seconds = 0.0
+        enabled = true
+        shortcut = "5"
+        variant = "destructive"
+
+[theme]
+builtin = "Tokyo-Night"
+community_palette = "Tokyo Night Moon"
+mode = "dark"
+source = "wallpaper"
+wallpaper_scheme = "vibrant"
+
+    [theme.templates]
+    builtin_ids = [ "btop", "foot", "gtk3", "gtk4", "ghostty", "niri", "qt", "starship" ]
+    community_ids = [ "opencode", "zed", "fuzzel", "fastfetch" ]
+
+[wallpaper.default]
+path = "/home/alex/Pictures/cosmos_evn_v1.png"
+
+[wallpaper.last]
+path = "/home/alex/Pictures/cosmos_evn_v1.png"
+
+[wallpaper.monitors.Virtual-1]
+path = "/home/alex/Pictures/cosmos_evn_v1.png"
+
+[widget.network]
+show_label = false
+
+[widget.status]
+type = "mindnbytes/nix-status:status"
+
+[widget.wallhaven]
+type = "noctalia/wallhaven:wallhaven"

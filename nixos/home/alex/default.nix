@@ -4,6 +4,7 @@
   imports = [
     ./desktops/cosmic.nix
     ./desktops/niri
+    ./desktops/noctalia
     ./programs
   ];
   home = {
