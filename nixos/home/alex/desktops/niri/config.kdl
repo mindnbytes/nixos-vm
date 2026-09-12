@@ -42,6 +42,8 @@ layout {
     }
 }
 
+workspace "scratch"
+
 spawn-at-startup "noctalia"
 
 prefer-no-csd
@@ -57,6 +59,15 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     open-floating true
+}
+
+// Quake terminal panel.
+window-rule {
+    match app-id=r#"^com\.alex\.quake$"#
+    open-floating true
+    default-column-width { proportion 0.85; }
+    default-window-height { proportion 0.45; }
+    default-floating-position x=0 y=0 relative-to="top"
 }
 
 // Apply rounded corners and blur to all windows.
@@ -101,6 +112,9 @@ binds {
     // Applications
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
+    Mod+Grave repeat=false hotkey-overlay-title="Toggle Quake Terminal" { spawn "quake-toggle"; }
+    // VMware sends Command+backtick as Meta+KEY_102ND (less in the US layout).
+    Mod+Less repeat=false hotkey-overlay-title="Toggle Quake Terminal (VMware)" { spawn "quake-toggle"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen" { spawn "noctalia" "msg" "session" "lock"; }
     Mod+Return hotkey-overlay-title="Open Noctalia Launcher" { spawn "noctalia" "msg" "panel-toggle" "launcher"; }

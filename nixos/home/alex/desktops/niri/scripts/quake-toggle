@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+windows=$(niri msg --json windows)
+window=$(jq -c 'first(.[] | select(.app_id == "com.alex.quake")) // empty' <<< "$windows")
+
+if [[ -z "$window" ]]; then
+    niri msg action spawn -- ghostty --class=com.alex.quake --gtk-single-instance=false
+    exit 0
+fi
+
+workspaces=$(niri msg --json workspaces)
+scratch=$(jq -er '.[] | select(.name == "scratch") | .id' <<< "$workspaces")
+window_id=$(jq -r '.id' <<< "$window")
+workspace_id=$(jq -r '.workspace_id' <<< "$window")
+
+if [[ "$workspace_id" == "$scratch" ]]; then
+    target=$(jq -er '.[] | select(.is_focused) | .idx' <<< "$workspaces")
+    niri msg action move-window-to-workspace --window-id "$window_id" --focus false "$target"
+    niri msg action focus-window --id "$window_id"
+else
+    niri msg action move-window-to-workspace --window-id "$window_id" --focus false scratch
+fi
