@@ -1,14 +1,6 @@
 { osConfig, pkgs, ... }:
 
 {
-  home.packages = [
-    (pkgs.writeShellApplication {
-      name = "quake-toggle";
-      runtimeInputs = [ osConfig.programs.niri.package pkgs.ghostty pkgs.jq ];
-      text = builtins.readFile ./scripts/quake-toggle;
-    })
-  ];
-
   xdg.configFile."niri/config.kdl".source =
     pkgs.runCommand "niri-config"
       {
