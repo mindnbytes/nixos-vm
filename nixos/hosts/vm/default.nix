@@ -18,7 +18,7 @@
 
   networking.hostName = "dev";
 
-  # docker in rootless mode on guest machine
+  # Run Docker as the user rather than a system-wide daemon.
   virtualisation.docker = {
     enable = false;
     rootless = {
@@ -26,7 +26,7 @@
       setSocketVariable = true;
     };
   };
-  # Don't require password for sudo
+
   security.sudo.wheelNeedsPassword = false;
 
   time.timeZone = "Europe/Berlin";
@@ -42,7 +42,7 @@
   };
 
   programs.fish.enable = true;
-  programs.ssh.startAgent = false; # true in minimal headless setup
+  programs.ssh.startAgent = false;
   services.xserver.enable = false;
 
   services.openssh = {
@@ -57,14 +57,15 @@
       AllowUsers = [ "alex" ];
     };
   };
-  # to advertise hostname.local and allow ssh alex@dev.local
+
+  # Advertise dev.local for SSH access.
   services.avahi = {
     enable = true;
     publish.enable = true;
     publish.addresses = true;
   };
 
-  # List packages installed in system profile.
+  # Basic tools are also available outside Alex's Home Manager environment.
   environment.systemPackages = with pkgs; [
     helix
     wget
@@ -93,5 +94,4 @@
   };
 
   system.stateVersion = "26.05";
-
 }

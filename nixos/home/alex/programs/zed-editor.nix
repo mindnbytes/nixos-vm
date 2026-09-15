@@ -3,7 +3,6 @@ let
   localFlake = "(builtins.getFlake (builtins.toString ./.))";
 in
 {
-  # Many default configuration options are skipped, check Zed config reference
   programs.zed-editor = {
     enable = true;
     extraPackages = [
@@ -30,31 +29,28 @@ in
       }
     ];
     userSettings = {
-      helix_mode = true; # helix mode is on top of vim mode
+      helix_mode = true;
 
-      ######### Themes, fonts, visuals #########
+      # Appearance
       theme = "Catppuccin Frappé";
       icon_theme = "Catppuccin Frappé";
-      # UI Font. Use ".SystemUIFont" to use the default system font (SF Pro on macOS),
-      # or ".ZedSans" for the bundled default (currently IBM Plex)
       ui_font_family = ".ZedSans";
-      ui_font_weight = 400; # Font weight in standard CSS units from 100 to 900.
+      ui_font_weight = 400;
       ui_font_size = 16;
       agent_ui_font_size = 18;
       agent_buffer_font_size = 15;
-      # Buffer Font - Used by editor buffers
-      # use ".ZedMono" for the bundled default monospace (currently Lilex)
       buffer_font_family = "JetBrainsMono Nerd Font Mono";
       buffer_font_size = 15;
       buffer_font_weight = 400;
-      # Line height "comfortable" (1.618), "standard" (1.3) or custom: `{ "custom": 2 }`
       buffer_line_height = "comfortable";
-      # Editor
+
+      # Editing
       cursor_blink = false;
       cursor_shape = "bar";
       autosave = "on_focus_change";
       colorize_brackets = true;
-      ######### AI agents, models, edit predictions #########
+
+      # AI agents and edit predictions
       agent = {
         default_model = {
           provider = "openai-subscribed";
@@ -69,19 +65,19 @@ in
         };
       };
 
-      # Defuault provider but don't show unless triggered manually
+      # Show edit predictions only when requested manually.
       edit_predictions = {
         provider = "zed";
         mode = "subtle";
       };
       show_edit_predictions = false;
-      # File Finder
+
       file_finder = {
         modal_max_width = "medium";
         include_ignored = "smart";
       };
 
-      ######### Terminal #########
+      # Terminal
       terminal = {
         dock = "right";
         default_width = 320;
@@ -99,7 +95,7 @@ in
         };
       };
 
-      ######### Languages and LSPs #########
+      # Languages and language servers
       languages = {
         Nix = {
           language_servers = [
@@ -114,7 +110,7 @@ in
           format_on_save = "on";
         };
       };
-      # LSP
+
       lsp = {
         nixd = {
           settings = {

@@ -5,12 +5,8 @@
   ...
 }:
 
-let
-  homeDir = config.home.homeDirectory;
-in
 {
   programs.firefox = {
-
     enable = true;
 
     languagePacks = [ "en-US" ];
@@ -46,7 +42,7 @@ in
       DontCheckDefaultBrowser = true;
       HardwareAcceleration = false;
       OfferToSaveLogins = false;
-      DefaultDownloadDirectory = "${homeDir}/Downloads";
+      DefaultDownloadDirectory = "${config.home.homeDirectory}/Downloads";
 
       # Extensions
       ExtensionSettings =
@@ -79,7 +75,7 @@ in
             uiTheme = "dark";
             uiAccentCustom = true;
             uiAccentCustom0 = "#8300ff";
-            cloudStorageEnabled = lib.mkForce false;
+            cloudStorageEnabled = false;
 
             importedLists = [
               "https://filters.adtidy.org/extension/ublock/filters/3.txt"

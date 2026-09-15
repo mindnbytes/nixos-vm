@@ -10,11 +10,11 @@
 
   virtualisation.vmware.guest = {
     enable = true;
-    # we have a graphical Wayland descktop even though XServer is disabled
+    # Wayland still needs graphical guest support with XServer disabled.
     headless = false;
   };
 
-  # turn off suspend for VM
+  # Keep the guest running; the host controls VM suspension.
   systemd.sleep.settings.Sleep = {
     AllowSuspend = "no";
     AllowHibernation = "no";

@@ -7,16 +7,10 @@ in
   programs.helix = {
     enable = true;
 
-    # Installs Helix and configures both EDITOR and VISUAL as "hx".
+    # Set EDITOR and VISUAL to "hx".
     defaultEditor = true;
 
-    /*
-      These packages are placed on the PATH of the wrapped hx executable.
-
-      They do not necessarily need to be installed separately in
-      home.packages unless you also want to invoke them directly from
-      your shell.
-    */
+    # These tools are on Helix's PATH, not the interactive shell's PATH.
     extraPackages = [
       pkgs.nixd
       pkgs.nixfmt
