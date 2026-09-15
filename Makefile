@@ -76,7 +76,7 @@ vm/fresh:
 	ssh $(SSH_OPTIONS) -p$(NIXPORT) root@$(NIXADDR) " \
 		set -eu; \
 		cp /mnt/etc/nixos/hardware-configuration.nix \
-		   /mnt/nixos-config/hardware-configuration.nix; \
+		   /mnt/nixos-config/hosts/vm/hardware-configuration.nix; \
 		nixos-install --flake /mnt/nixos-config#vm --no-root-passwd; \
 		sync; \
 		systemctl reboot --no-block; \
