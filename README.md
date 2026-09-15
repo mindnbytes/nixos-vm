@@ -36,7 +36,7 @@ $ passwd
 Here I want to diverge from Mitchell's two-step bootstrap process and try to make a full fresh install from a flake.
 Conceptually, it looks like the flowchart below. Set `system.stateVersion` to the NixOS release initially installed and do not change it during routine upgrades; it does not need to match the installer ISO.
 
-This Makefile and configuration are intentionally opinionated. If you clone or fork this repository, update the user, hostname, timezone, and `openssh.authorizedKeys.keys` in `nixos/configuration.nix`; also update the user in `nixos/home.nix`.
+This Makefile and configuration are intentionally opinionated. If you clone or fork this repository, update the user, hostname, timezone, and `openssh.authorizedKeys.keys` in `nixos/hosts/vm/default.nix`. User configuration lives in `nixos/home/alex/default.nix`, with the Home Manager user wired up in `nixos/flake.nix`. Update the checkout and wallpaper paths in `nixos/home/alex/desktops/noctalia/config.toml` to match your setup.
 
 Run the bootstrap from your Mac, replacing the address and disk as needed:
 
@@ -70,3 +70,45 @@ make vm/fresh
 ## After the Bootstrap
 
 Our user has no password yet and can initially access the VM only through SSH using a private key matching `openssh.authorizedKeys.keys`. Run `ssh username@hostname.local`, or use `ssh -i /path/to/private-key username@hostname.local` for a non-standard key location, then set the password with `sudo passwd username`. Password SSH remains disabled by this configuration.
+
+### Set up the working checkout
+
+`/nixos-config` is the bootstrap copy. Everyday edits and rebuilds use the Git checkout at `/home/alex/Projects/nixos-vm`, whose flake is in the `nixos/` subdirectory. Noctalia's status plugin also uses this flake directory.
+
+On the VM, as `alex`, clone the repository and copy the installed configuration into it once:
+
+```sh
+mkdir -p ~/Projects
+git clone https://github.com/mindnbytes/nixos-vm.git ~/Projects/nixos-vm
+rsync -rv /nixos-config/ ~/Projects/nixos-vm/nixos/
+cd ~/Projects/nixos-vm
+git diff -- nixos/
+```
+
+This preserves the configuration used for installation, including `nixos/hosts/vm/hardware-configuration.nix` with this VM's generated filesystem UUIDs. Review and commit the imported changes. From this point onward, the checkout is the source of truth; `/nixos-config` is no longer used for rebuilds.
+
+## Everyday workflow
+
+Edit system settings in `nixos/hosts/vm/` and user settings in `nixos/home/alex/`. Stage any new configuration files with `git add` so the Git-backed flake can see them. From the VM's flake directory:
+
+```sh
+cd ~/Projects/nixos-vm/nixos
+nix flake check --no-build
+noctalia config validate home/alex/desktops/noctalia
+sudo nixos-rebuild switch --flake .#vm
+```
+
+`nix flake check --no-build` checks evaluation; the rebuild also validates Niri's configuration before activation. Home Manager is integrated into the system rebuild. See the desktop READMEs for how Noctalia's writable colors and GUI overrides interact with the checked-in settings.
+
+After verifying the result, review `git diff` and commit the intended changes. To update pinned dependencies, run `nix flake update` in the flake directory, then follow the same validation and rebuild steps and commit `flake.lock`.
+
+### Copy configuration back to the Mac
+
+From the repository on the Mac:
+
+```sh
+make vm/sync NIXADDR=dev.local
+git diff -- nixos/
+```
+
+`vm/sync` copies the VM's working `~/Projects/nixos-vm/nixos/` directory into the local `nixos/` directory. It overwrites matching files and adds new ones, but does not propagate deletions or copy Git history. Review the diff and `git status`, and apply any intended deletions locally.

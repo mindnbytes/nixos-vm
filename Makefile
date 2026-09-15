@@ -106,7 +106,7 @@ vm/secret:
 		"$(HOME)/.ssh/" \
 		"$(NIXUSER)@$(NIXADDR):.ssh/"
 
-# Sync VM's latest state nixos-config to this repo
+# Copy the VM's working flake into this repo; does not propagate deletions.
 vm/sync:
 	@test "$(NIXADDR)" != "unset" || { \
 		echo "Specify the VM address, for example NIXADDR=dev.local"; \
@@ -115,5 +115,5 @@ vm/sync:
 	@echo "Copying NixOS configuration from $(NIXUSER)@$(NIXADDR)";
 	rsync -av \
 		-e "ssh -p$(NIXPORT)" \
-		"$(NIXUSER)@$(NIXADDR):/nixos-config/" \
+		"$(NIXUSER)@$(NIXADDR):/home/$(NIXUSER)/Projects/nixos-vm/nixos/" \
 		"$(MAKEFILE_DIR)/nixos/"
