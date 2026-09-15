@@ -11,9 +11,14 @@ MAKEFILE_DIR := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 # SSH options to use
 SSH_OPTIONS=-o PubkeyAuthentication=no -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
 
-# Bootsrap new VM: only does one thing - installs fresh NixOS with declarative
-# configuration provided through flake
+.PHONY: vm/fresh vm/secret vm/sync
+
+# Install fresh NixOS from the flake.
 vm/fresh:
+	@test -n "$(strip $(NIXADDR))" && test "$(NIXADDR)" != "unset" || { \
+		echo "Specify the VM address, for example NIXADDR=192.168.64.10"; \
+		exit 1; \
+	}
 	@test -n "$(strip $(NIXDISK))" || { \
 		echo "Specify the installation disk, for example NIXDISK=/dev/nvme0n1"; \
 		exit 1; \
@@ -24,47 +29,8 @@ vm/fresh:
 	}
 	# prepare partitions and filesystems, mount, generate config
 	@echo "Connecting to prepare and ERASE $(NIXDISK); enter the live installer root password.";
-	ssh $(SSH_OPTIONS) -p$(NIXPORT) root@$(NIXADDR) " \
-		set -eu; \
-		DISK='$(NIXDISK)'; \
-		test -b \"\$$DISK\"; \
-		lsblk -dn -o TYPE \"\$$DISK\" | grep -qx disk; \
-		if ! getent hosts api.github.com >/dev/null 2>&1; then \
-			echo \"DNS resolution failed; retrying without EDNS0 for the installer.\"; \
-			cp /etc/resolv.conf /tmp/resolv.conf.before-vm-fresh; \
-			sed '/^[[:space:]]*options[[:space:]].*edns0/d' \
-				/etc/resolv.conf > /tmp/resolv.conf.vm-fresh; \
-			cat /tmp/resolv.conf.vm-fresh > /etc/resolv.conf; \
-		fi; \
-		getent hosts api.github.com >/dev/null; \
-		getent hosts cache.nixos.org >/dev/null; \
-		curl --fail --silent --show-error --location --connect-timeout 15 \
-			https://api.github.com/ >/dev/null; \
-		curl --fail --silent --show-error --location --connect-timeout 15 \
-			https://cache.nixos.org/nix-cache-info >/dev/null; \
-		case \"\$$DISK\" in \
-			*[0-9]) PART=\"\$${DISK}p\" ;; \
-			*) PART=\"\$$DISK\" ;; \
-		esac; \
-		parted --script \"\$$DISK\" -- mklabel gpt; \
-		parted --script \"\$$DISK\" -- mkpart root ext4 512MB -8GB; \
-		parted --script \"\$$DISK\" -- mkpart swap linux-swap -8GB 100\%; \
-		parted --script \"\$$DISK\" -- mkpart ESP fat32 1MB 512MB; \
-		parted --script \"\$$DISK\" -- set 3 esp on; \
-		sleep 2; \
-		test -b \"\$${PART}1\"; \
-		test -b \"\$${PART}2\"; \
-		test -b \"\$${PART}3\"; \
-		mkfs.ext4 -L nixos \"\$${PART}1\"; \
-		mkswap -L swap \"\$${PART}2\"; \
-		mkfs.fat -F 32 -n boot \"\$${PART}3\"; \
-		sleep 2; \
-		mount /dev/disk/by-label/nixos /mnt; \
-		mkdir -p /mnt/boot; \
-		mount -o umask=077 /dev/disk/by-label/boot /mnt/boot; \
-		swapon \"\$${PART}2\"; \
-		nixos-generate-config --root /mnt; \
-		"
+	ssh $(SSH_OPTIONS) -p$(NIXPORT) root@$(NIXADDR) \
+		"bash -s -- '$(NIXDISK)'" < "$(MAKEFILE_DIR)/scripts/prepare-vm.sh"
 	# copy flake from the host
 	@echo "Uploading the NixOS configuration; enter the live installer root password again.";
 	rsync -av \

@@ -47,7 +47,7 @@ make vm/fresh \
   CONFIRM_ERASE=YES
 ```
 
-The selected disk will be completely erased. The process is:
+The selected disk will be completely erased. The Make target sends `scripts/prepare-vm.sh` to Bash in the live installer to check connectivity, partition, format, mount, and generate the hardware configuration. It then uploads the flake and installs NixOS. The process is:
 
 ```
 make vm/fresh
