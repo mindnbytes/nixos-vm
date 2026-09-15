@@ -1,6 +1,8 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
+
 let
-  localFlake = "(builtins.getFlake (builtins.toString ./.))";
+  # Complete against the VM checkout regardless of the editor's working directory.
+  vmFlake = ''(builtins.getFlake "${config.home.homeDirectory}/Projects/nixos-vm/nixos")'';
 in
 {
   programs.zed-editor = {
@@ -117,11 +119,11 @@ in
             nixd = {
               formatting.command = [ "nixfmt" ];
 
-              nixpkgs.expr = "import ${localFlake}.inputs.nixpkgs { }";
+              nixpkgs.expr = "import ${vmFlake}.inputs.nixpkgs { }";
 
               options = {
-                nixos.expr = "${localFlake}.nixosConfigurations.vm.options";
-                home-manager.expr = "${localFlake}.nixosConfigurations.vm.options.home-manager.users.type.getSubOptions []";
+                nixos.expr = "${vmFlake}.nixosConfigurations.vm.options";
+                home-manager.expr = "${vmFlake}.nixosConfigurations.vm.options.home-manager.users.type.getSubOptions []";
               };
 
               diagnostic.suppress = [ "sema-extra-with" ];

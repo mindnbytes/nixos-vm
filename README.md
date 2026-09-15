@@ -102,6 +102,8 @@ sudo nixos-rebuild switch --flake .#vm
 
 After verifying the result, review `git diff` and commit the intended changes. To update pinned dependencies, run `nix flake update` in the flake directory, then follow the same validation and rebuild steps and commit `flake.lock`.
 
+Helix and Zed use this VM's working flake at `~/Projects/nixos-vm/nixos` for nixd's package and NixOS/Home Manager option completions, independently of the editor's working directory. These are global editor defaults: other projects also use the VM's completion context unless overridden. If you relocate the checkout, update the path in both editor modules and Noctalia's `config.toml`.
+
 ### Copy configuration back to the Mac
 
 From the repository on the Mac:
