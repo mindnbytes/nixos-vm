@@ -9,6 +9,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    opencode-v2.url = "github:anomalyco/opencode/v2";
+
     cosmic-manager = {
       url = "github:HeitorAugustoLN/cosmic-manager";
       inputs.nixpkgs.follows = "nixpkgs";
