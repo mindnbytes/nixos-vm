@@ -1,4 +1,10 @@
-{ osConfig, pkgs, ... }:
+{
+  config,
+  lib,
+  osConfig,
+  pkgs,
+  ...
+}:
 
 {
   xdg.configFile."niri/config.kdl".source =
@@ -14,4 +20,11 @@
         niri validate --config config.kdl
         cp config.kdl "$out"
       '';
+
+  home.activation.seedNiriColors = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    colorFile=${lib.escapeShellArg "${config.xdg.configHome}/niri/noctalia.kdl"}
+    if [ ! -e "$colorFile" ] && [ ! -L "$colorFile" ]; then
+      run install -D -m 600 ${./validation/noctalia.kdl} "$colorFile"
+    fi
+  '';
 }
