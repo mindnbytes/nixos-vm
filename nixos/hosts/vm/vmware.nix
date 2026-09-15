@@ -1,6 +1,8 @@
 {
   networking = {
-    useDHCP = false; # true in minimal headless setup
+    # NetworkManager handles DHCP independently of the selected desktop.
+    networkmanager.enable = true;
+    useDHCP = false;
     firewall.enable = false;
     # VMware Fusion NAT DNS proxy returns malformed responses to EDNS queries.
     resolvconf.dnsExtensionMechanism = false;
