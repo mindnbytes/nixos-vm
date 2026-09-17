@@ -71,6 +71,18 @@ make vm/fresh
 
 Our user has no password yet and can initially access the VM only through SSH using a private key matching `openssh.authorizedKeys.keys`. Run `ssh username@hostname.local`, or use `ssh -i /path/to/private-key username@hostname.local` for a non-standard key location, then set the password with `sudo passwd username`. Password SSH remains disabled by this configuration.
 
+### Copy SSH identities
+
+Once SSH access works, run this from the repository on the Mac to copy the SSH configuration and identities used for GitHub, GitLab, and other SSH connections:
+
+```sh
+make vm/secret NIXADDR=dev.local
+```
+
+`scripts/ssh-files.txt` lists the exact filenames to copy from the Mac's `~/.ssh/` into the VM user's `~/.ssh/`. It contains filenames only; key contents stay outside the repository. Edit the list when adding or removing an identity. Every listed file must exist on the Mac.
+
+The copy follows source symlinks, overwrites listed destination files, and leaves other destination files in place. Destination directories use mode `700` and files use mode `600`. The copied SSH config should use Linux-compatible options and identity paths such as `~/.ssh/id_ed25519_mindnbytes`; preserve the `github-ad.com` alias used by the Git configuration.
+
 ### Set up the working checkout
 
 `/nixos-config` is the bootstrap copy. Everyday edits and rebuilds use the Git checkout at `/home/alex/Projects/nixos-vm`, whose flake is in the `nixos/` subdirectory. Noctalia's status plugin also uses this flake directory.

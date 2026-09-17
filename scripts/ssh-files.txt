@@ -1,0 +1,12 @@
+config
+known_hosts
+id_ed25519
+id_ed25519.pub
+id_ed25519_gitlab
+id_ed25519_gitlab.pub
+id_ed25519_mindnbytes
+id_ed25519_mindnbytes.pub
+id_ed25519_nix_vm
+id_ed25519_nix_vm.pub
+id_ed25519_nixos_mini
+id_ed25519_nixos_mini.pub

@@ -48,13 +48,10 @@ vm/fresh:
 		systemctl reboot --no-block; \
 	"
 
-# Copy common SSH identity material from the host to the installed VM user.
-# Requires ordinary host SSH access to work first, for example:
-# ssh -p 22 alex@dev.local
-# SSH will use a default ~/.ssh/id_* key, or an IdentityFile configured for
-# the VM host in ~/.ssh/config.
+# Copy the SSH files listed in scripts/ssh-files.txt from the host.
+# Requires working SSH access, using the host's ordinary SSH configuration.
 vm/secret:
-	@test "$(NIXADDR)" != "unset" || { \
+	@test -n "$(strip $(NIXADDR))" && test "$(NIXADDR)" != "unset" || { \
 		echo "Specify the VM address, for example NIXADDR=dev.local"; \
 		exit 1; \
 	}
@@ -62,12 +59,8 @@ vm/secret:
 	ssh -p$(NIXPORT) $(NIXUSER)@$(NIXADDR) \
 		"install -d -m 700 /home/$(NIXUSER)/.ssh"
 	rsync -avL \
-		--include="/config" \
-		--include="/known_hosts" \
-		--include="/id_*" \
-		--include="/*.pem" \
-		--include="/*.key" \
-		--exclude="*" \
+		--files-from="$(MAKEFILE_DIR)/scripts/ssh-files.txt" \
+		--chmod=D700,F600 \
 		-e "ssh -p$(NIXPORT)" \
 		"$(HOME)/.ssh/" \
 		"$(NIXUSER)@$(NIXADDR):.ssh/"
