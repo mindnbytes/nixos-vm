@@ -18,6 +18,9 @@
 
   networking.hostName = "dev";
 
+  # Allow access from the Mac to development servers without per-port rules.
+  networking.firewall.enable = false;
+
   # Run Docker as the user rather than a system-wide daemon.
   virtualisation.docker = {
     enable = false;
