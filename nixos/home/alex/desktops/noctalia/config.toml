@@ -139,7 +139,7 @@ wallpaper_scheme = "vibrant"
 
     [theme.templates]
     builtin_ids = [ "btop", "gtk3", "gtk4", "ghostty", "niri", "qt", "starship" ]
-    community_ids = [ "opencode", "zed", "fuzzel", "fastfetch" ]
+    community_ids = [ "zed", "fuzzel", "fastfetch" ]
 
 [wallpaper.default]
 path = "/home/alex/Pictures/cosmos_evn_v1.png"

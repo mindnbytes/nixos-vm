@@ -5,5 +5,6 @@
     ./git.nix
     ./zed-editor.nix
     ./firefox.nix
+    ./opencode.nix
   ];
 }
