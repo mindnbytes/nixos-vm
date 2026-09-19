@@ -13,6 +13,10 @@ let
       name = "system";
       mode = "system";
     };
+    scroll = {
+      speed = 1;
+      acceleration = false;
+    };
   };
 
   mergeCliSettings = pkgs.writeShellApplication {
