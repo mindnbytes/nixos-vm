@@ -13,7 +13,6 @@
 
     policies = {
       # Feature Disabling
-      DisableBuiltinPDFViewer = true;
       DisableFirefoxStudies = true;
       DisableFirefoxAccounts = true;
       DisableFirefoxScreenshots = true;
