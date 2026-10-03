@@ -67,7 +67,7 @@ vm/secret:
 
 # Copy the VM's working flake into this repo; does not propagate deletions.
 vm/sync:
-	@test "$(NIXADDR)" != "unset" || { \
+	@test -n "$(strip $(NIXADDR))" && test "$(NIXADDR)" != "unset" || { \
 		echo "Specify the VM address, for example NIXADDR=dev.local"; \
 		exit 1; \
 	}
