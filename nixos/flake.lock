@@ -11,11 +11,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780178896,
-        "narHash": "sha256-98aHwiGZcvb0VJUGE+lCS/zuGdFAlNvm8keIimuLOK0=",
+        "lastModified": 1791070782,
+        "narHash": "sha256-1dHqiMHuMHvuru0f9ybyW+3XJHb7P8cz4k4GPa1YYyY=",
         "owner": "HeitorAugustoLN",
         "repo": "cosmic-manager",
-        "rev": "1630bbf792a95baffbd3169885580cd53a7027d8",
+        "rev": "f7e32c4b314f8c3a1a23cfdac65132c0ab87d80c",
         "type": "github"
       },
       "original": {
@@ -102,11 +102,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1791007777,
-        "narHash": "sha256-chZ1FovdI4N8dEOsmyyvm4PGnuOAgvHCCMT8QtIpDPI=",
+        "lastModified": 1791094988,
+        "narHash": "sha256-QbIkTw4PvGXLdrzz19KJfqMBuZbKsJepboNJgvfct10=",
         "owner": "anomalyco",
         "repo": "opencode",
-        "rev": "40679546d4db07ba9dfb17160051c9a3109c438f",
+        "rev": "f8cafd836292689d1f1901173b59a36585545894",
         "type": "github"
       },
       "original": {
