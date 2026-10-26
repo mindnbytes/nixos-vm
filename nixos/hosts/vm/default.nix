@@ -64,8 +64,10 @@
   # Advertise dev.local for SSH access.
   services.avahi = {
     enable = true;
-    publish.enable = true;
-    publish.addresses = true;
+    settings.publish = {
+      "disable-publishing" = false;
+      "publish-addresses" = true;
+    };
   };
 
   # Basic tools are also available outside Alex's Home Manager environment.
