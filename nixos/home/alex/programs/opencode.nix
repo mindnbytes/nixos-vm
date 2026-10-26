@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   lib,
   pkgs,
   ...
@@ -48,7 +47,7 @@ let
   };
 in
 {
-  home.packages = [ inputs.opencode-v2.packages.${pkgs.stdenv.hostPlatform.system}.opencode ];
+  home.packages = [ pkgs.opencode ];
 
   # Keep CLI settings writable; rebuilds reapply only the declared preferences.
   # The system theme derives its colors from Noctalia's Ghostty palette.
