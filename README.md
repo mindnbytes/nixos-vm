@@ -112,19 +112,11 @@ sudo nixos-rebuild switch --flake .#vm
 
 `nix flake check --no-build` checks evaluation; the rebuild also validates Niri's configuration before activation. Home Manager is integrated into the system rebuild. See the desktop READMEs for how Noctalia's writable colors and GUI overrides interact with the checked-in settings.
 
+ReGreet provides the graphical login in a separate minimal Niri session. Noctalia's automatic location is disabled; no location service is configured.
+
 After verifying the result, review `git diff` and commit the intended changes. To update pinned dependencies, run `nix flake update` in the flake directory, then follow the same validation and rebuild steps and commit `flake.lock`.
 
 Helix uses this VM's working flake at `~/Projects/nixos-vm/nixos` for nixd's package and NixOS/Home Manager option completions, independently of the editor's working directory. This is a global editor default: other projects also use the VM's completion context unless overridden. If you relocate the checkout, update the path in the Helix module and Noctalia's `config.toml`.
-
-### If removing COSMIC
-
-COSMIC is imported by `nixos/hosts/vm/default.nix` and `nixos/home/alex/default.nix`; its Home Manager module and flake input are in `nixos/flake.nix`. Before removing them, account for what COSMIC currently supplies:
-
-- `cosmic-greeter` is the only configured graphical login. Niri provides a login session, not a greeter; choose another greeter or plan to start Niri from a text login.
-- COSMIC enables GeoClue, which Noctalia's `location.auto_locate` may need. Enable `services.geoclue2` separately if automatic location matters.
-- COSMIC also supplies UPower, GVfs, COSMIC Files, and some fonts and icons. Keep or replace only the pieces you use.
-
-Niri's NixOS module already enables its portals, keyring, graphical-session support, and Polkit; Noctalia provides the Polkit agent. Those do not require the COSMIC desktop.
 
 ### Copy configuration back to the Mac
 

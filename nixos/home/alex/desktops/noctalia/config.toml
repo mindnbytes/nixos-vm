@@ -63,7 +63,7 @@ behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
     timeout = 660.0
 
 [location]
-auto_locate = true
+auto_locate = false
 
 [lockscreen_widgets]
 enabled = false

@@ -7,7 +7,6 @@
   imports = [
     ./hardware-configuration.nix
     ./vmware.nix
-    ./desktops/cosmic.nix
     ./desktops/niri.nix
   ];
 
