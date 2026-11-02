@@ -53,12 +53,6 @@ cursor {
 
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
-// Float Firefox Picture-in-Picture windows.
-window-rule {
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-    open-floating true
-}
-
 // Apply rounded corners and blur to all windows.
 window-rule {
     geometry-corner-radius 18
