@@ -36,7 +36,7 @@ $ passwd
 Here I want to diverge from Mitchell's two-step bootstrap process and try to make a full fresh install from a flake.
 Conceptually, it looks like the flowchart below. Set `system.stateVersion` to the NixOS release initially installed and do not change it during routine upgrades; it does not need to match the installer ISO.
 
-This Makefile and configuration are intentionally opinionated. If you clone or fork this repository, update the user, hostname, timezone, and `openssh.authorizedKeys.keys` in `nixos/hosts/vm/default.nix`. User configuration lives in `nixos/home/alex/default.nix`, with the Home Manager user wired up in `nixos/flake.nix`. Update the checkout and wallpaper paths in `nixos/home/alex/desktops/noctalia/config.toml` to match your setup.
+This Makefile and configuration are intentionally opinionated. If you clone or fork this repository, update the user, hostname, timezone, and `openssh.authorizedKeys.keys` in `nixos/hosts/vm/default.nix`. User configuration lives in `nixos/home/alex/default.nix`, with the Home Manager user wired up in `nixos/flake.nix`.
 
 Run the bootstrap from your Mac, replacing the address and disk as needed:
 
@@ -85,7 +85,7 @@ The copy follows source symlinks, overwrites listed destination files, and leave
 
 ### Set up the working checkout
 
-`/nixos-config` is the bootstrap copy. Everyday edits and rebuilds use the Git checkout at `/home/alex/Projects/nixos-vm`, whose flake is in the `nixos/` subdirectory. Noctalia's status plugin also uses this flake directory.
+`/nixos-config` is the bootstrap copy. Everyday edits and rebuilds use the Git checkout at `/home/alex/Projects/nixos-vm`, whose flake is in the `nixos/` subdirectory.
 
 On the VM, as `alex`, clone the repository and copy the installed configuration into it once:
 
@@ -106,17 +106,16 @@ Edit system settings in `nixos/hosts/vm/` and user settings in `nixos/home/alex/
 ```sh
 cd ~/Projects/nixos-vm/nixos
 nix flake check --no-build
-noctalia config validate home/alex/desktops/noctalia
 sudo nixos-rebuild switch --flake .#vm
 ```
 
-`nix flake check --no-build` checks evaluation; the rebuild also validates Niri's configuration before activation. Home Manager is integrated into the system rebuild. See the desktop READMEs for how Noctalia's writable colors and GUI overrides interact with the checked-in settings.
+`nix flake check --no-build` checks evaluation; the rebuild also validates Niri's configuration before activation. Home Manager is integrated into the system rebuild. See the Niri desktop README for the lock, notification, and first-login checks.
 
-ReGreet provides the graphical login in a separate minimal Niri session. Noctalia's automatic location is disabled; no location service is configured.
+ReGreet provides the graphical login in a separate minimal Niri session. No location service is configured.
 
 After verifying the result, review `git diff` and commit the intended changes. To update pinned dependencies, run `nix flake update` in the flake directory, then follow the same validation and rebuild steps and commit `flake.lock`.
 
-Helix uses this VM's working flake at `~/Projects/nixos-vm/nixos` for nixd's package and NixOS/Home Manager option completions, independently of the editor's working directory. This is a global editor default: other projects also use the VM's completion context unless overridden. If you relocate the checkout, update the path in the Helix module and Noctalia's `config.toml`.
+Helix uses this VM's working flake at `~/Projects/nixos-vm/nixos` for nixd's package and NixOS/Home Manager option completions, independently of the editor's working directory. This is a global editor default: other projects also use the VM's completion context unless overridden. If you relocate the checkout, update the path in the Helix module.
 
 ### Copy configuration back to the Mac
 

@@ -1,20 +1,25 @@
-# Niri configuration
+# Niri desktop
 
-NixOS provides niri through `programs.niri.enable`. Home Manager links
-`config.kdl` into `~/.config/niri/config.kdl`.
+NixOS runs Niri for both the ReGreet login and the user session. Home Manager
+links `config.kdl` after validating it with the NixOS-selected Niri package.
+Its colors are static and do not depend on a generated theme file.
 
-Edit the main configuration here and rebuild to apply it. The build validates it
-with the NixOS-selected niri package and `validation/noctalia.kdl`, a snapshot of
-the color include also used to seed fresh accounts. An invalid configuration
-fails the build, before activation.
+Veila 0.4.4 provides the lock screen. Its `veilad` user service starts with the
+graphical session; `veila-idle` locks after 600 seconds. `Super+Alt+L` locks
+manually. NixOS configures Veila's PAM service. The VM disables suspend, but the
+idle service also requests a lock before sleep. Fuzzel remains available with
+`Mod+D` or `Mod+Return`.
 
-`~/.config/niri/noctalia.kdl` remains writable and owned by Noctalia, so dynamic
-theme updates continue to work. Niri resolves the relative include beside the
-Home Manager symlink. After linking the configuration, Home Manager copies the
-snapshot into the live color file only if no file or symlink exists there. The
-copy is writable, so Niri can start immediately and Noctalia can update its
-colors. Rebuilds preserve existing colors; the live file is not validated.
+Hokum provides notifications; sound, Bluetooth, and update checks are disabled.
+Home Manager owns `~/.config/hokum/config.kdl`, so edit this configuration rather
+than expecting changes made in Hokum's settings UI to persist. The polkit agent
+and Hokum also start with the graphical session.
 
-On initial activation, the flake's Home Manager backup setting preserves the
-old unmanaged main config as `config.kdl.backup`. An existing backup at that
-path must be moved aside first.
+After the first activation, log out and back in to release Noctalia's existing
+notification and authentication agents. Keep an SSH connection available and
+verify the user password before testing the lock. Check incorrect and correct
+passwords, the manual shortcut, ten-minute idle lock, a polkit prompt, a
+notification, Fuzzel, ordinary copy/paste, and a portal file chooser. Check
+`systemctl --user --failed` and the `veilad`, `veila-idle`, `polkit-agent`, and
+`hokum` user service logs if anything fails. Noctalia's former state and theme
+files were moved aside during migration; personal wallpapers remain untouched.

@@ -3,7 +3,6 @@
 {
   imports = [
     ./desktops/niri
-    ./desktops/noctalia
     ./programs
   ];
   home = {

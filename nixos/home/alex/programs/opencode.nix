@@ -50,7 +50,7 @@ in
   home.packages = [ pkgs.opencode ];
 
   # Keep CLI settings writable; rebuilds reapply only the declared preferences.
-  # The system theme derives its colors from Noctalia's Ghostty palette.
+  # The system theme derives its colors from the hosting terminal's palette.
   home.activation.mergeOpencodeCliSettings = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
     run ${lib.getExe mergeCliSettings} ${lib.escapeShellArg "${config.xdg.configHome}/opencode/cli.json"}
   '';
