@@ -2,23 +2,105 @@
   osConfig,
   pkgs,
   inputs,
+  lib,
   ...
 }:
 
-{
+let
+  theme = import ../../../../theme;
+  display = import ../../../../hosts/vm/display.nix;
+  c = theme.colors;
+  niriConfig = pkgs.writeText "niri-themed.kdl" (lib.replaceStrings
+    [ "@focusColor@" "@inactiveColor@" "@outputName@" "@outputScale@" ]
+    [ c.accent c.muted display.output display.scale ]
+    (builtins.readFile ./config.kdl));
+in {
   xdg.configFile."niri/config.kdl".source =
     pkgs.runCommand "niri-config"
       {
         nativeBuildInputs = [ osConfig.programs.niri.package ];
       }
       ''
-        cp ${./config.kdl} config.kdl
+        cp ${niriConfig} config.kdl
 
         niri validate --config config.kdl
         cp config.kdl "$out"
       '';
 
   home.packages = [ pkgs.veila ];
+
+  systemd.user.services.wallpaper = {
+    Unit = {
+      Description = "Woodland wallpaper";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.swaybg}/bin/swaybg --image ${theme.wallpaper} --mode fill";
+      Restart = "on-failure";
+      RestartSec = 2;
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
+  };
+
+  programs.fuzzel = {
+    enable = true;
+    settings = {
+      main = { font = "${theme.font}:size=12"; width = 48; };
+      colors = {
+        background = "${c.raised}f5";
+        text = "${c.text}ff";
+        match = "${c.accent}ff";
+        selection = "${c.selection}ff";
+        selection-text = "${c.text}ff";
+        selection-match = "${c.accent}ff";
+        border = "${c.border}ff";
+      };
+      border = { width = 1; radius = 16; };
+    };
+  };
+
+  gtk = {
+    enable = true;
+    font = { name = theme.font; size = 11; };
+    theme.name = "Adwaita";
+    iconTheme = { name = "Adwaita"; package = pkgs.adwaita-icon-theme; };
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = false;
+    gtk4.extraConfig.gtk-application-prefer-dark-theme = false;
+  };
+
+  xdg.configFile."ghostty/config".text = ''
+    font-family = ${theme.monoFont}
+    background = #${c.raised}
+    foreground = #${c.text}
+    cursor-color = #${c.accent}
+    selection-background = #${c.selection}
+    selection-foreground = #${c.text}
+  '';
+
+  xdg.configFile."veila/config.toml".source = (pkgs.formats.toml { }).generate "veila-config.toml" {
+    background = { mode = "file"; path = "${theme.wallpaper}"; dim_strength = 25; };
+    weather.enabled = false;
+    visuals = {
+      clock = { font_family = theme.font; color = "#${c.raised}"; };
+      date = { font_family = theme.font; color = "#${c.raised}"; };
+      username = { font_family = theme.font; color = "#${c.raised}"; };
+      input = {
+        font_family = theme.font;
+        background_color = "#${c.raised}";
+        mask_color = "#${c.text}";
+        border_color = "#${c.border}";
+      };
+      placeholder.color = "#${c.muted}";
+      status = {
+        rejected_color = "#${c.error}";
+        pending_color = "#${c.text}";
+        color = "#${c.text}";
+      };
+      eye.color = "#${c.muted}";
+      caps_lock.color = "#${c.muted}";
+    };
+  };
 
   systemd.user.services.veilad = {
     Unit = {
@@ -80,11 +162,21 @@
   };
 
   xdg.configFile."hokum/config.kdl".text = ''
+    tokens {
+        fill "#${c.raised}"
+        text "#${c.text}"
+        muted "#${c.muted}"
+        faint "#${c.muted}"
+        accent "#${c.accent}"
+        border 1 "#${c.border}"
+        radius 16
+    }
     modules {
         sound #false
         bluetooth #false
     }
     behaviour {
+        appearance "light"
         check-for-updates #false
     }
   '';

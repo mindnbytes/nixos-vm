@@ -13,8 +13,8 @@ input {
 }
 
 // VM-specific scale for Studio Display and built-in Mac displays.
-output "Virtual-1" {
-    scale 1.75
+output "@outputName@" {
+    scale @outputScale@
 }
 
 layout {
@@ -37,8 +37,8 @@ layout {
 
     focus-ring {
         width 2
-        active-color "#7fc8ff"
-        inactive-color "#505050"
+        active-color "#@focusColor@"
+        inactive-color "#@inactiveColor@"
     }
 }
 

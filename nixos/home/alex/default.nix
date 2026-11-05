@@ -12,7 +12,6 @@
 
     packages = with pkgs; [
       ghostty
-      fuzzel
       fastfetch
       ripgrep
       fd
