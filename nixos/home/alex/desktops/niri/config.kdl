@@ -18,7 +18,7 @@ output "@outputName@" {
 }
 
 layout {
-    gaps 16
+    gaps 8
     center-focused-column "never"
 
     preset-column-widths {
@@ -45,6 +45,8 @@ layout {
 prefer-no-csd
 
 cursor {
+    xcursor-theme "Adwaita"
+    xcursor-size 28
     hide-when-typing
     hide-after-inactive-ms 2000
 }

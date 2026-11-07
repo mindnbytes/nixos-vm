@@ -48,7 +48,7 @@ in {
     settings = {
       main = { font = "${theme.font}:size=12"; width = 48; };
       colors = {
-        background = "${c.raised}f5";
+        background = "${c.terminal}ff";
         text = "${c.text}ff";
         match = "${c.accent}ff";
         selection = "${c.selection}ff";
@@ -69,9 +69,17 @@ in {
     gtk4.extraConfig.gtk-application-prefer-dark-theme = false;
   };
 
+  home.pointerCursor = {
+    enable = true;
+    name = "Adwaita";
+    package = pkgs.adwaita-icon-theme;
+    size = 28;
+    gtk.enable = true;
+  };
+
   xdg.configFile."ghostty/config".text = ''
     font-family = ${theme.monoFont}
-    background = #${c.raised}
+    background = #${c.terminal}
     foreground = #${c.text}
     cursor-color = #${c.accent}
     selection-background = #${c.selection}

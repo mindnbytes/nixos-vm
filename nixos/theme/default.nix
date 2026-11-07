@@ -6,6 +6,7 @@
   colors = {
     surface = "f8f7f2";
     raised = "fffefa";
+    terminal = "faf6ee";
     text = "292e2b";
     muted = "657069";
     accent = "456657";
