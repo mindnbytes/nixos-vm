@@ -84,6 +84,8 @@ in {
     cursor-color = #${c.accent}
     selection-background = #${c.selection}
     selection-foreground = #${c.text}
+    window-padding-x = 8
+    window-padding-y = 8
   '';
 
   xdg.configFile."veila/config.toml".source = (pkgs.formats.toml { }).generate "veila-config.toml" {
