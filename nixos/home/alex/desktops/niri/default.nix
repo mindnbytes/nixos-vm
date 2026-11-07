@@ -89,7 +89,7 @@ in {
   '';
 
   xdg.configFile."veila/config.toml".source = (pkgs.formats.toml { }).generate "veila-config.toml" {
-    background = { mode = "file"; path = "${theme.wallpaper}"; dim_strength = 25; };
+    background = { mode = "file"; path = "${theme.wallpaper}"; blur_strength = 4; dim_strength = 25; };
     weather.enabled = false;
     visuals = {
       clock = { font_family = theme.font; color = "#${c.raised}"; };
