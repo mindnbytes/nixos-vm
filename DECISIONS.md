@@ -32,6 +32,9 @@ when its decision changes; Git history retains previous versions.
   to refine its quit and hotkey overlays; polkit appearance is also future work.
 - Fuzzel is acceptable for now. A more Spotlight-like launcher may be explored
   later, with privacy and dependency costs considered.
+- Disable only the VMware vmblock mount: host–guest drag-and-drop is not needed
+  in this Wayland VM. The generated `fuse` mount failed with the installed FUSE 3
+  helper; an isolated `fuse3` mount worked. Keep the main VMware guest service.
 
 ## Security, recovery and provisioning
 

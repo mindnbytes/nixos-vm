@@ -1,3 +1,4 @@
+{ lib, ... }:
 {
   networking = {
     # NetworkManager handles DHCP independently of the selected desktop.
@@ -12,6 +13,9 @@
     # Wayland still needs graphical guest support with XServer disabled.
     headless = false;
   };
+
+  # Host–guest drag-and-drop is not needed in the Wayland VM.
+  systemd.units."run-vmblock\\x2dfuse.mount".enable = lib.mkForce false;
 
   # Keep the guest running; the host controls VM suspension.
   systemd.sleep.settings.Sleep = {
