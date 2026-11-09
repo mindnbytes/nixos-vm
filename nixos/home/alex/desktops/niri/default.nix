@@ -46,17 +46,24 @@ in {
   programs.fuzzel = {
     enable = true;
     settings = {
-      main = { font = "${theme.font}:size=12"; width = 48; };
+      main = {
+        font = "${theme.font}:size=15";
+        width = 48;
+        horizontal-pad = 28;
+        vertical-pad = 12;
+        inner-pad = 8;
+        image-size-ratio = 0;
+      };
       colors = {
-        background = "${c.terminal}ff";
+        background = "${c.raised}ff";
         text = "${c.text}ff";
         match = "${c.accent}ff";
         selection = "${c.selection}ff";
         selection-text = "${c.text}ff";
         selection-match = "${c.accent}ff";
-        border = "${c.border}ff";
+        border = "aab9adff";
       };
-      border = { width = 1; radius = 16; };
+      border = { width = 2; radius = 18; selection-radius = 8; };
     };
   };
 
